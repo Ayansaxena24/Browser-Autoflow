@@ -9,11 +9,11 @@ import WindowControls from './components/WindowControls';
 interface TabType {
   id: string;
   url: string;
-  title?: string;
+  title: string;
 }
 
 function App(): JSX.Element {
-  const [tabs, setTabs] = useState<TabType[]>([{ id: uuidv4(), url: 'https://www.google.com' }]);
+  const [tabs, setTabs] = useState<TabType[]>([{ id: uuidv4(), url: 'https://www.google.com', title:'Google' }]);
   const [activeTabId, setActiveTabId] = useState<string>(tabs[0].id);
   const windowDimensions = useWindowsDimensions();
   const webviewRefs = useRef<{ [key: string]: HTMLWebViewElement | null }>({});
@@ -31,9 +31,17 @@ function App(): JSX.Element {
     );
   };
 
+  const handleTitleChange = (title: string) => {
+    setTabs((prevTabs) =>
+      prevTabs.map((tab) =>
+        tab.id === activeTabId ? { ...tab, title } : tab
+      )
+    );
+  };
+
   const handleNewTab = () => {
     const newTabId = uuidv4();
-    setTabs((prevTabs) => [...prevTabs, { id: newTabId, url: 'https://www.google.com' }]);
+    setTabs((prevTabs) => [...prevTabs, { id: newTabId, url: 'https://www.google.com', title:'Google' }]);
     setActiveTabId(newTabId);
     setHistory((prevHistory) => ({ ...prevHistory, [newTabId]: new Set() }));
   };
@@ -59,7 +67,7 @@ function App(): JSX.Element {
       });
 
       // Ensure at least one tab exists
-      return updatedTabs.length ? updatedTabs : [{ id: uuidv4(), url: '' }];
+      return updatedTabs.length ? updatedTabs : [{ id: uuidv4(), url: '', title:'' }];
     });
   };
 
@@ -110,31 +118,6 @@ function App(): JSX.Element {
     }
   };
 
-  // useEffect(() => {
-  //   const webview = webviewRefs.current[activeTab.id];
-  //   if (webview) {
-  //     const handleTitleUpdated = (event: any) => {
-  //       const title = event.title || event.detail?.title;
-  //       setTabs((prevTabs) =>
-  //         prevTabs.map((tab) =>
-  //           tab.id === activeTabId ? { ...tab, title } : tab
-  //         )
-  //       );
-  //     };
-
-  //     webview.addEventListener('page-title-updated', handleTitleUpdated as EventListener);
-
-  //     return () => {
-  //       webview.removeEventListener('page-title-updated', handleTitleUpdated as EventListener);
-  //     };
-  //   }
-  //   return;
-  // }, [activeTabId, tabs]);
-
-  useEffect(() => {
-   console.log(history, 'history')
-  })
-
   useEffect(() => {
     const webview = webviewRefs.current[activeTab.id];
 
@@ -166,13 +149,21 @@ function App(): JSX.Element {
         previousUrl = newUrl;
       };
 
-      // Add event listener for navigation
+      // Handle title updates
+      const handleTitleUpdated = (event: any) => {
+        const title = event.title || event.detail?.title || 'Untitled';
+        handleTitleChange(title);
+      };
+
+      // Add event listeners for navigation and title updates
       webview.addEventListener('did-navigate', handleNavigate);
+      webview.addEventListener('page-title-updated', handleTitleUpdated);
 
       // Cleanup function
       return () => {
         if (webview && webview.isConnected) {
           webview.removeEventListener('did-navigate', handleNavigate);
+          webview.removeEventListener('page-title-updated', handleTitleUpdated);
         }
       };
     }
@@ -196,10 +187,11 @@ function App(): JSX.Element {
         setUrl={handleUrlChange}
         url={activeTab.url}
         onBack={handleBack}
-        onForward={handleForward} // Add forward handler to AddressBar
+        onForward={handleForward}
         history={history}
         activeTabId={activeTabId}
         forwardHistory={forwardHistory}
+        title={activeTab.title}
       /> 
       {activeTab.url ? (
         <webview
