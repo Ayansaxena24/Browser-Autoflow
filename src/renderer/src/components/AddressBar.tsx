@@ -96,7 +96,14 @@ const AddressBar = ({
     return () => clearTimeout(timeoutId)
   }
 
+  useEffect(() => {
+    if (url !== '' || url !== 'https://www.google.com/') {
+    setLoading(true);
+    }
+  }, [url])
+
   const handleSearch = () => {
+    setLoading(true)
     if (text.startsWith('https://') || text.startsWith('http://')) {
       setUrl(text)
     } else {
