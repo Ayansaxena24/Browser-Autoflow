@@ -97,7 +97,7 @@ const AddressBar = ({
   }
 
   useEffect(() => {
-    if (url !== '' || url !== 'https://www.google.com/') {
+    if ((url !== '' ) && (url !== 'https://www.google.com/')) {
     setLoading(true);
     }
   }, [url])
