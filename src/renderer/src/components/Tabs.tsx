@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../styles.css';
 
 interface TabType {
@@ -27,6 +27,58 @@ const Tabs: React.FC<TabsProps> = ({
           ? `${title.slice(0, maxLength)}...` 
           : title
       }
+
+       // Add the useEffect to listen for keyboard events
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      // Check if the user presses "Ctrl + T" (Windows/Linux) or "Cmd + T" (Mac)
+      if ((event.ctrlKey || event.metaKey) && event.key === 't') {
+        event.preventDefault();  // Prevent the default browser behavior
+        onNewTab();  // Trigger the new tab function
+      }
+
+      // Close Tab: Ctrl/Cmd + W
+      if ((event.ctrlKey || event.metaKey) && event.key === 'w') {
+        event.preventDefault(); // Prevent default browser tab close
+        
+        // Close the current active tab
+        onTabClose(activeTabId);
+      }
+
+      // Switch Tabs: Ctrl/Cmd + Tab (next), Ctrl/Cmd + Shift + Tab (previous)
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Tab') {
+        event.preventDefault();
+
+        // Find current tab index
+        const currentIndex = tabs.findIndex(tab => tab.id === activeTabId);
+        
+        // Determine next tab index
+        const nextIndex = event.shiftKey 
+          ? (currentIndex - 1 + tabs.length) % tabs.length  // Previous tab (wrapping around)
+          : (currentIndex + 1) % tabs.length;  // Next tab (wrapping around)
+
+        // Change to the next/previous tab
+        onTabChange(tabs[nextIndex].id);
+      }
+
+      // Optional: Direct tab switching with Ctrl/Cmd + Number (1-9)
+      if ((event.ctrlKey || event.metaKey) && event.key >= '1' && event.key <= '9') {
+        const tabIndex = parseInt(event.key) - 1;
+        if (tabIndex < tabs.length) {
+          event.preventDefault();
+          onTabChange(tabs[tabIndex].id);
+        }
+      }
+    };
+
+    // Add event listener for keydown events
+    window.addEventListener('keydown', handleKeyPress);
+
+    // Cleanup the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [onNewTab, onTabChange, onTabClose]);
 
   return (
     <div className="tabs-container flex items-center bg-gray-100 p-1">

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './assets/styles.css';
 import AddressBar from './components/AddressBar';
@@ -39,12 +39,15 @@ function App(): JSX.Element {
     );
   };
 
-  const handleNewTab = () => {
-    const newTabId = uuidv4();
-    setTabs((prevTabs) => [...prevTabs, { id: newTabId, url: 'https://www.google.com', title:'Google' }]);
+  const handleNewTab = useCallback(() => {
+    console.log('New tab called!');
+    const newTabId = (tabs.length + 1).toString();
+    setTabs(prevTabs => [
+      ...prevTabs, 
+      { id: newTabId, url: 'https://www.google.com', title: 'Google' }
+    ]);
     setActiveTabId(newTabId);
-    setHistory((prevHistory) => ({ ...prevHistory, [newTabId]: new Set() }));
-  };
+  }, [tabs]);
 
   const handleTabChange = (tabId: string) => {
     setActiveTabId(tabId);
