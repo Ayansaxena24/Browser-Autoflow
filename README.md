@@ -1,6 +1,6 @@
 
 
-# React Browser Application
+# Browser Application (ElectronJs + ReactJs)
 
 This React application emulates a **minimalistic browser** with features such as **bookmarks management**, **tab switching**, and **dynamic URL loading**. It provides a simple yet functional interface to browse URLs, manage multiple tabs, and save frequently visited sites for easy access.
 
@@ -71,7 +71,7 @@ This React application emulates a **minimalistic browser** with features such as
 - The application is **fully responsive**, ensuring usability on mobile, tablet, and desktop devices.
 - The layout dynamically adjusts to provide an optimal user experience across different screen sizes.
   
-![Responsive Design](https://github.com/user-attachments/assets/d578c9ef-137f-43b5-b802-41ece69c158e)
+![Responsive Design](https://github.com/user-attachments/assets/ccc6d86b-998f-4c88-9ff8-59a58e6e0d69)
 
 ---
 
@@ -120,6 +120,7 @@ This React application emulates a **minimalistic browser** with features such as
 - **Tailwind CSS**: For styling the application with responsive and utility-first design.
 - **Material UI (MUI)**: Used for components like buttons and popovers.
 - **React Toastify**: Used for displaying notifications and alerts in a smooth, non-blocking manner.
+- **Bootstrap**: For additional styling and layout components.
 
 ---
 
@@ -128,7 +129,78 @@ This React application emulates a **minimalistic browser** with features such as
 
 ## Getting Started
 
-### 1. Clone the Repository
+Follow these steps to set up and run the project on your local machine.
 
-```bash
-git clone https://github.com/YourUsername/react-browser.git
+### Prerequisites
+
+Make sure you have the following installed on your system:
+- **Node.js**: [Download and install Node.js](https://nodejs.org/)
+- **npm** or **yarn**: Comes with Node.js or can be installed separately.
+- **Electron.js**: Installed as a development dependency.
+- **Git**: [Download and install Git](https://git-scm.com/)
+
+### Installation
+
+1. **Clone the Repository**  
+   Clone the project to your local machine using the following command:
+   
+   ```bash
+   git clone https://github.com/Ayansaxena24/Browser-Autoflow.git
+   ````
+2. **Navigate to the Project Directory**
+   Move into the project's root directory:
+   
+   ```bash
+   cd Browser-Autoflow
+   ````
+
+3. **Install Dependencies**
+   Install all required packages using npm or yarn:
+
+   ```bash
+   npm install
+   ````
+
+   Or, if you use yarn:
+
+   ```bash
+   yarn
+   ````
+
+### Running The Application
+
+### Note
+
+> ⚠️ **Important:** Ensure you access the application through the **Electron App** only. Some features may not function properly when accessed via the localhost browser window during development.
+
+
+1. **Run the Development Server**  
+   To start the React application in development mode:
+   
+   ```bash
+   npm run start
+   ````
+
+   Or, for yarn:
+
+    ```bash
+   yarn start
+   ````
+
+    Open your browser and navigate to http://localhost:3000 (or http://localhost:5173 in some cases)
+
+1. **Run the Desktop App**  
+   To start the React application in development mode:
+   
+   ```bash
+   npm run start
+   ````
+
+   Or, for yarn:
+
+    ```bash
+   yarn start
+   ````
+
+    Open your browser and navigate to http://localhost:3000 (or 5173 in some cases).
+   
