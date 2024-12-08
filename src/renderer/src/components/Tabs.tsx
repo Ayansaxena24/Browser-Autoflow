@@ -50,7 +50,7 @@ const Tabs: React.FC<TabsProps> = ({
           </span>
           {tabs.length > 1 && (
             <button 
-              className="close-tab ml-2 hover:bg-red-100 rounded-full p-1"
+              className="close-tab ml-2 hover:bg-red-100 rounded-md pb-1 px-1 h-[24px] flex items-center justify-center"
               onClick={(e) => {
                 e.stopPropagation()
                 onTabClose(tab.id)
@@ -62,10 +62,10 @@ const Tabs: React.FC<TabsProps> = ({
         </div>
       ))}
       <button 
-        className="new-tab-btn ml-2 bg-blue-100 hover:bg-blue-200 rounded p-1"
+        className="new-tab-btn ml-2 bg-blue-100 hover:bg-blue-200 rounded-md px-2 flex items-center justify-center h-[38px] pb-1"
         onClick={onNewTab}
       >
-        +
+        <p className='text-[26px]'>+</p>
       </button>
     </div>
   )

@@ -202,7 +202,7 @@ function App(): JSX.Element {
             activeTab.url
           }`}
           style={{
-            height: windowDimensions.height - 107,
+            height: windowDimensions.height - 109,
             width: '100%',
           }}
         ></webview>

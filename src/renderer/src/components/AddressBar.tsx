@@ -38,9 +38,16 @@ const AddressBar = ({
   const [text, setText] = useState('')
   const [bookMarks, setBookMarks] = useState<Bookmark[]>([])
   const [openBookmarks, setOpenBookMarks] = useState(false)
+  const [openColorPicker, setOpenColorPicker] = useState(false)
 
-  const handleTogleBookmarks = () => {
+  const handleToggleBookmarks = () => {
     setOpenBookMarks(!openBookmarks)
+    setOpenColorPicker(false)  // Close color picker when opening bookmarks
+  }
+
+  const handleToggleColorPicker = () => {
+    setOpenColorPicker(!openColorPicker)
+    setOpenBookMarks(false)  // Close bookmarks when opening color picker
   }
 
   // Truncate text to specified length
@@ -185,10 +192,13 @@ const AddressBar = ({
           />
         </div>
         <div className="mt-1">
-          <ColorPicker />
+        <ColorPicker 
+            isActive={openColorPicker} 
+            setIsActive={handleToggleColorPicker} 
+          />
         </div>
         <div className="hover:bg-blue-400 rounded-md transition duration-300 ease-in-out flex items-center h-[34px] px-2 py-2 mt-1.5">
-          <button className='w-[20px]' onClick={handleTogleBookmarks}><img src={menu} /></button>
+          <button className='w-[20px]' onClick={handleToggleBookmarks}><img src={menu} /></button>
         </div>
 
         {/* popover */}

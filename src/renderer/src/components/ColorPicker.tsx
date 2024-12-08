@@ -3,12 +3,16 @@ import colorpicker from '../assets/colorpicker.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ColorPicker = () => {
+interface ColorPickerProps {
+  isActive: boolean;
+  setIsActive: () => void;
+}
+
+const ColorPicker = ({ isActive, setIsActive }: ColorPickerProps) => {  
   const [color, setColor] = useState('#ffffff');
   const [savedColor, setSavedColor] = useState('#ffffff');
   const [rgbColor, setRgbColor] = useState('');
   const [hslColor, setHslColor] = useState('');
-  const [isActive, setIsActive] = useState(false);
   const [colorHistory, setColorHistory] = useState<string[]>([]);
 
   // Utility function to convert HEX to RGB
@@ -119,7 +123,7 @@ const ColorPicker = () => {
       <img
         src={colorpicker}
         className="w-[30px] pt-1 cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
-        onClick={() => setIsActive(!isActive)}
+        onClick={setIsActive}
         alt="Color Picker"
       />
 
