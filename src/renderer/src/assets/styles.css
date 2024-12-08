@@ -1,0 +1,11 @@
+#drag {
+  -webkit-app-region: drag;
+}
+
+#no-drag {
+  -webkit-app-region: no-drag;
+}
+
+:root {
+  --bs-navbar-padding-y: 0rem; /* Updated value */
+}
